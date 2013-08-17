@@ -145,12 +145,22 @@ public class assisstant extends javax.swing.JFrame {
                 CharactersActionPerformed(evt);
             }
         });
+        Characters.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                CharactersKeyReleased(evt);
+            }
+        });
 
         jLabel4.setText("NOT CONTAIN (Characters)");
 
         NEGCharacters.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NEGCharactersActionPerformed(evt);
+            }
+        });
+        NEGCharacters.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                NEGCharactersKeyReleased(evt);
             }
         });
 
@@ -277,6 +287,14 @@ public class assisstant extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_NEGCharactersActionPerformed
 
+    private void CharactersKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CharactersKeyReleased
+        UPDATED();
+    }//GEN-LAST:event_CharactersKeyReleased
+
+    private void NEGCharactersKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NEGCharactersKeyReleased
+        UPDATED();
+    }//GEN-LAST:event_NEGCharactersKeyReleased
+
     public void UPDATED() {
         //SEGMENT - contains this segment
         //Characters - contains these characters
@@ -287,28 +305,33 @@ public class assisstant extends javax.swing.JFrame {
         int tI1 = 0;
         int value = CharCountSlider.getValue();
         boolean AnyValue = (value == 0) ? true : false;
-        String[] AllLines = DICTIONARY.getText().split("\r\n|\r|\n");
+        String[] AllLines = DICTIONARY.getText().toLowerCase().split("\r\n|\r|\n");
         CountDictionary:
         {
+            if (AnyValue) {
+                tI1 = AllLines.length;
+                break CountDictionary;
+            }
             for (int i = 0; i < AllLines.length; i++) {
-                if (AnyValue) {
-                    tI1 = AllLines.length;
-                    break CountDictionary;
-                } else if (AllLines[i].length() == value) {
+                if (AllLines[i].length() == value) {
                     tI1++;
                 }
             }
+        }
+        if (AnyValue) {
+            tI1 = AllLines.length;
         }
         String[] newPOSS = new String[tI1];
         int rI1 = 0;
         CountGoodies:
         {
+            if (AnyValue) {
+                newPOSS = AllLines;
+                break CountGoodies;
+            }
             for (int i = 0; i < AllLines.length; i++) {
-                if (AnyValue) {
-                    newPOSS = AllLines;
-                    break CountGoodies;
-                } else if (AllLines[i].length() == value) {
-                    newPOSS[rI1] = AllLines[i];
+                if (AllLines[i].length() == value) {
+                    newPOSS[rI1] = AllLines[i].toLowerCase();
                     rI1++;
                 }
             }
@@ -333,6 +356,10 @@ public class assisstant extends javax.swing.JFrame {
         }
         Charact:
         {
+            if (Characters.getText().length() >= 1) {
+            } else {
+                break Charact;
+            }
             int CI1 = 0;
             for (int i = 0; i < newPOSS.length; i++) {
                 if (DoesStringContainThese(newPOSS[i], Characters.getText())) {
@@ -353,14 +380,16 @@ public class assisstant extends javax.swing.JFrame {
         {
             int CI1 = 0;
             for (int i = 0; i < newPOSS.length; i++) {
-                if (DoesStringNotContainThese(newPOSS[i], Characters.getText())) {
+                if (DoesStringNotContainThese(newPOSS[i], NEGCharacters.getText())) {
+                } else {
                     CI1++;
                 }
             }
             int RI1 = 0;
             String[] repPOSS = new String[CI1];
             for (int i = 0; i < newPOSS.length; i++) {
-                if (DoesStringNotContainThese(newPOSS[i], Characters.getText())) {
+                if (DoesStringNotContainThese(newPOSS[i], NEGCharacters.getText())) {
+                } else {
                     repPOSS[RI1] = newPOSS[i];
                     RI1++;
                 }
