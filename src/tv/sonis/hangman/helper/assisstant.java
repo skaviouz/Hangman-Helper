@@ -504,22 +504,35 @@ public class assisstant extends javax.swing.JFrame {
             newfilter = filter.substring(0, src.length());
             FirstLoop = 0;
         }
+        int[] tCheck = new int[newfilter.length()];
         floop:
         for (int i = 0; i <= FirstLoop; i++) {
             sloop:
-            for (int j = 0; j < newfilter.length(); j++) {;
+            for (int j = 0; j < newfilter.length(); j++) {
                 String tSrc = src.substring(i + j, i + j + 1);
                 String tFil = filter.substring(j, j + 1);
                 if (tFil.equals("-")) {
-                    continue sloop;
+                    System.out.println("EXEMPT " + tSrc + " and " + tFil);
+                    tCheck[j] = 1;
                 } else if (tSrc.equalsIgnoreCase(tFil)) {
-                    continue sloop;
+                    System.out.println("SAME " + tSrc + " and " + tFil);
+                    tCheck[j] = 1;
                 } else {
-                    return false;
+                    System.out.println("FAILED " + tSrc + " and " + tFil);
+                    tCheck[j] = 0;
                 }
             }
+            boolean Good = true;
+            for (int j = 0; j < newfilter.length(); j++) {
+                if (tCheck[j] == 0) {
+                    Good = false;
+                }
+            }
+            if (Good == true) {
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     /**
