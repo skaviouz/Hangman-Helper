@@ -428,14 +428,14 @@ public class assisstant extends javax.swing.JFrame {
             }
             int CI1 = 0;
             for (int i = 0; i < newPOSS.length; i++) {
-                if (DoesStringContainThese(newPOSS[i], Characters.getText())) {
+                if (DoesStringMatchFilter(newPOSS[i], Filter.getText())) {
                     CI1++;
                 }
             }
             int RI1 = 0;
             String[] repPOSS = new String[CI1];
             for (int i = 0; i < newPOSS.length; i++) {
-                if (DoesStringContainThese(newPOSS[i], Characters.getText())) {
+                if (DoesStringMatchFilter(newPOSS[i], Filter.getText())) {
                     repPOSS[RI1] = newPOSS[i];
                     RI1++;
                 }
@@ -484,10 +484,40 @@ public class assisstant extends javax.swing.JFrame {
         }
         return true;
     }
-    
-    public boolean DoesStringMatchFilter(String src, String filter){
-        for (int i = 0; i < filter.length(); i++) {
-            
+
+    public boolean DoesStringMatchFilter(String src, String filter) {
+        int FirstLoop = 0;
+        String newfilter = filter;
+        if (!(filter.length() > 0)) {
+            //ignore filter
+            return true;
+        } else if (src.length() > filter.length()) {
+            //apply filter to entirety of source
+            FirstLoop = src.length() - filter.length();
+        } else if (src.length() == filter.length()) {
+            //apply filter once to entire string
+            //this could still work above [src >= filter] { src-filter }
+            //but I like to make different notes for this case.
+            FirstLoop = 0;
+        } else if (src.length() < filter.length()) {
+            //apply filter stripping lleading characters
+            newfilter = filter.substring(0, src.length());
+            FirstLoop = 0;
+        }
+        floop:
+        for (int i = 0; i <= FirstLoop; i++) {
+            sloop:
+            for (int j = 0; j < newfilter.length(); j++) {;
+                String tSrc = src.substring(i + j, i + j + 1);
+                String tFil = filter.substring(j, j + 1);
+                if (tFil.equals("-")) {
+                    continue sloop;
+                } else if (tSrc.equalsIgnoreCase(tFil)) {
+                    continue sloop;
+                } else {
+                    return false;
+                }
+            }
         }
         return true;
     }
