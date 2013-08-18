@@ -42,6 +42,8 @@ public class assisstant extends javax.swing.JFrame {
         Characters = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         NEGCharacters = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        Filter = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         DICTIONARY = new javax.swing.JTextPane();
@@ -165,6 +167,15 @@ public class assisstant extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("Filter");
+
+        Filter.setText("-----");
+        Filter.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                FilterKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -176,17 +187,24 @@ public class assisstant extends javax.swing.JFrame {
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Characters, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(SEGMENT, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(NEGCharacters, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(CHECK))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(SEGMENT, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(NEGCharacters, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(CHECK))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Filter)
+                        .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,7 +212,9 @@ public class assisstant extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(SEGMENT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SEGMENT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(Filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -266,6 +286,7 @@ public class assisstant extends javax.swing.JFrame {
 
     private void CharCountSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_CharCountSliderStateChanged
         CharCount.setText("" + CharCountSlider.getValue());
+        UPDATED();
     }//GEN-LAST:event_CharCountSliderStateChanged
 
     private void SEGMENTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SEGMENTActionPerformed
@@ -295,6 +316,10 @@ public class assisstant extends javax.swing.JFrame {
     private void NEGCharactersKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NEGCharactersKeyReleased
         UPDATED();
     }//GEN-LAST:event_NEGCharactersKeyReleased
+
+    private void FilterKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_FilterKeyReleased
+        UPDATED();
+    }//GEN-LAST:event_FilterKeyReleased
 
     public void UPDATED() {
         //SEGMENT - contains this segment
@@ -382,7 +407,6 @@ public class assisstant extends javax.swing.JFrame {
             int CI1 = 0;
             for (int i = 0; i < newPOSS.length; i++) {
                 if (DoesStringNotContainThese(newPOSS[i], NEGCharacters.getText())) {
-                } else {
                     CI1++;
                 }
             }
@@ -390,7 +414,28 @@ public class assisstant extends javax.swing.JFrame {
             String[] repPOSS = new String[CI1];
             for (int i = 0; i < newPOSS.length; i++) {
                 if (DoesStringNotContainThese(newPOSS[i], NEGCharacters.getText())) {
-                } else {
+                    repPOSS[RI1] = newPOSS[i];
+                    RI1++;
+                }
+            }
+            newPOSS = repPOSS;
+        }
+        filter:
+        {
+            if (Filter.getText().length() >= 1) {
+            } else {
+                break filter;
+            }
+            int CI1 = 0;
+            for (int i = 0; i < newPOSS.length; i++) {
+                if (DoesStringContainThese(newPOSS[i], Characters.getText())) {
+                    CI1++;
+                }
+            }
+            int RI1 = 0;
+            String[] repPOSS = new String[CI1];
+            for (int i = 0; i < newPOSS.length; i++) {
+                if (DoesStringContainThese(newPOSS[i], Characters.getText())) {
                     repPOSS[RI1] = newPOSS[i];
                     RI1++;
                 }
@@ -434,11 +479,17 @@ public class assisstant extends javax.swing.JFrame {
     public boolean DoesStringNotContainThese(String src, String chars) {
         for (int i = 0; i < chars.length(); i++) {
             if (src.contains(chars.substring(i, i + 1))) {
-                return true;
-            } else {
+                return false;
             }
         }
-        return false;
+        return true;
+    }
+    
+    public boolean DoesStringMatchFilter(String src, String filter){
+        for (int i = 0; i < filter.length(); i++) {
+            
+        }
+        return true;
     }
 
     /**
@@ -481,6 +532,7 @@ public class assisstant extends javax.swing.JFrame {
     private javax.swing.JSlider CharCountSlider;
     private javax.swing.JTextField Characters;
     private javax.swing.JTextPane DICTIONARY;
+    private javax.swing.JTextField Filter;
     private javax.swing.JTextField NEGCharacters;
     private javax.swing.JTextPane POSS;
     private javax.swing.JTextField SEGMENT;
@@ -488,6 +540,7 @@ public class assisstant extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
