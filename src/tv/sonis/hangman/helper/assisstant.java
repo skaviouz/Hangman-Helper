@@ -14,6 +14,7 @@ public class assisstant extends javax.swing.JFrame {
         UPDATED();
         CharCountSlider.setValue(3);
         CharCountSliderHumanCheck();
+        this.setTitle("hang-man helper by skaviouz");
     }
 
     /**
