@@ -99,6 +99,7 @@
           <Events>
             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="CharCountSliderMouseReleased"/>
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="CharCountSliderStateChanged"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="CharCountSliderKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="CharCount">

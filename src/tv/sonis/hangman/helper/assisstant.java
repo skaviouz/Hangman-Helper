@@ -64,6 +64,11 @@ public class assisstant extends javax.swing.JFrame {
                 CharCountSliderStateChanged(evt);
             }
         });
+        CharCountSlider.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                CharCountSliderKeyReleased(evt);
+            }
+        });
 
         CharCount.setText("Any");
 
@@ -326,13 +331,27 @@ public class assisstant extends javax.swing.JFrame {
     }//GEN-LAST:event_NEGCharactersKeyReleased
 
     private void FilterKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_FilterKeyReleased
+        if(human == false){
+            if (CharCountSlider.getMinimum() <= Filter.getText().length()){
+                CharCountSlider.setValue(Filter.getText().length());
+            }
+        } else {
+            if (CharCountSlider.getMinimum() == CharCountSlider.getValue()){
+                human = true;
+                CharCountSlider.setValue(Filter.getText().length());
+            }
+        }
         UPDATED();
     }//GEN-LAST:event_FilterKeyReleased
-    public boolean any = false;
+    public boolean human = false;
 
     private void CharCountSliderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CharCountSliderMouseReleased
-        // TODO add your handling code here:
+        human = true;
     }//GEN-LAST:event_CharCountSliderMouseReleased
+
+    private void CharCountSliderKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CharCountSliderKeyReleased
+        human = true;
+    }//GEN-LAST:event_CharCountSliderKeyReleased
 
     public int[] CountMinMaxDictionarySizes(String[] AllLines) {
         int min = 20;//polarised to find the min size
