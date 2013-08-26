@@ -16,7 +16,7 @@ From the inspiration of :
  * RSPS Servers which gives money for this game
 
 To run the application via pre-build Releases : 
- * https://codeload.github.com/skaviouz/lobber/zip/master (zip)
- * https://github.com/skaviouz/lobber.git (git)
+ * https://codeload.github.com/skaviouz/Hangman-Helper/zip/master (zip)
+ * https://github.com/skaviouz/Hangman-Helper.git (git)
  * https://raw.github.com/skaviouz/hangman-helper/master/releases/Hangman-Helper-1.0.jar
  * https://raw.github.com/skaviouz/hangman-helper/master/releases/Hangman-Helper-2.0.jar
