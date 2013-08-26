@@ -355,12 +355,6 @@ public class assisstant extends javax.swing.JFrame {
     }
 
     public void UPDATED() {
-        //SEGMENT - contains this segment
-        //Characters - contains these characters
-        //NEGCharacters - not contains these characters
-        //DICTIONARY
-        //POSS - possible answers
-        //CharCountSlider - value of the character
         int tI1 = 0;
         String[] AllLines = DICTIONARY.getText().toLowerCase().split("\r\n|\r|\n");
         int[] sizes = CountMinMaxDictionarySizes(AllLines);
