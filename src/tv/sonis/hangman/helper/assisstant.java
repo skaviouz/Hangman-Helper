@@ -1,4 +1,3 @@
-
 package tv.sonis.hangman.helper;
 
 /**
@@ -12,6 +11,9 @@ public class assisstant extends javax.swing.JFrame {
      */
     public assisstant() {
         initComponents();
+        UPDATED();
+        CharCountSlider.setValue(3);
+        CharCountSliderHumanCheck();
     }
 
     /**
@@ -51,6 +53,7 @@ public class assisstant extends javax.swing.JFrame {
 
         CharCountSlider.setMaximum(10);
         CharCountSlider.setMinimum(4);
+        CharCountSlider.setValue(0);
         CharCountSlider.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 CharCountSliderMouseReleased(evt);
@@ -59,11 +62,6 @@ public class assisstant extends javax.swing.JFrame {
         CharCountSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 CharCountSliderStateChanged(evt);
-            }
-        });
-        CharCountSlider.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                CharCountSliderKeyReleased(evt);
             }
         });
 
@@ -93,6 +91,7 @@ public class assisstant extends javax.swing.JFrame {
         );
 
         POSS.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Possibilities", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Courier New", 0, 12))); // NOI18N
+        POSS.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jScrollPane3.setViewportView(POSS);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -294,7 +293,9 @@ public class assisstant extends javax.swing.JFrame {
         if (CharCountSlider.getMinimum() == CharCountSlider.getValue()) {
             CharCount.setText("Any");
         } else {
-            CharCount.setText("" + CharCountSlider.getValue());
+            CharCount.setText(CharCountSlider.getValue() + ((human == false) ? "+" : ""));
+        }
+        if (human == false) {
         }
         UPDATED();
     }//GEN-LAST:event_CharCountSliderStateChanged
@@ -328,27 +329,27 @@ public class assisstant extends javax.swing.JFrame {
     }//GEN-LAST:event_NEGCharactersKeyReleased
 
     private void FilterKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_FilterKeyReleased
-        if(human == false){
-            if (CharCountSlider.getMinimum() <= Filter.getText().length()){
+        if (human == false) {
+            if (CharCountSlider.getMinimum() <= Filter.getText().length()) {
                 CharCountSlider.setValue(Filter.getText().length());
             }
         } else {
-            if (CharCountSlider.getMinimum() == CharCountSlider.getValue()){
-                human = true;
+            if (CharCountSlider.getMinimum() == CharCountSlider.getValue()) {
+                human = false;
                 CharCountSlider.setValue(Filter.getText().length());
             }
         }
         UPDATED();
     }//GEN-LAST:event_FilterKeyReleased
-    public boolean human = false;
+    public boolean human = true;
 
     private void CharCountSliderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CharCountSliderMouseReleased
-        human = true;
+        CharCountSliderHumanCheck();
     }//GEN-LAST:event_CharCountSliderMouseReleased
 
-    private void CharCountSliderKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CharCountSliderKeyReleased
+    public void CharCountSliderHumanCheck() {
         human = true;
-    }//GEN-LAST:event_CharCountSliderKeyReleased
+    }
 
     public int[] CountMinMaxDictionarySizes(String[] AllLines) {
         int min = 20;//polarised to find the min size
@@ -390,10 +391,12 @@ public class assisstant extends javax.swing.JFrame {
             for (int i = 0; i < AllLines.length; i++) {
                 if (AllLines[i].length() == value) {
                     tI1++;
+                } else if (human == false && AllLines[i].length() > value) {
+                    tI1++;
                 }
             }
         }
-        if (AnyValue) {
+        if (AnyValue || human == false) {
             tI1 = AllLines.length;
         }
         String[] newPOSS = new String[tI1];
@@ -408,11 +411,17 @@ public class assisstant extends javax.swing.JFrame {
                 if (AllLines[i].length() == value) {
                     newPOSS[rI1] = AllLines[i].toLowerCase();
                     rI1++;
+                } else if (human == false && AllLines[i].length() > value) {
+                    newPOSS[rI1] = AllLines[i].toLowerCase();
+                    rI1++;
                 }
             }
         }
         segment:
         {
+            if (SEGMENT.getText().length() == 0) {
+                break segment;
+            }
             int CI1 = 0;
             for (int i = 0; i < newPOSS.length; i++) {
                 if (newPOSS[i].contains(SEGMENT.getText())) {
@@ -495,7 +504,7 @@ public class assisstant extends javax.swing.JFrame {
         {
             String finished = "";
             for (int i = 0; i < newPOSS.length; i++) {
-                finished = finished + "\n" + newPOSS[i];
+                finished = finished + newPOSS[i] + "\n";
             }
             POSS.setText(finished);
         }
@@ -540,6 +549,9 @@ public class assisstant extends javax.swing.JFrame {
         if (!(filter.length() > 0)) {
             //ignore filter
             return true;
+        } else if (src == null) {
+            //ignore filter
+            return false;
         } else if (src.length() > filter.length()) {
             //apply filter to entirety of source
             FirstLoop = src.length() - filter.length();
@@ -561,13 +573,10 @@ public class assisstant extends javax.swing.JFrame {
                 String tSrc = src.substring(i + j, i + j + 1);
                 String tFil = filter.substring(j, j + 1);
                 if (tFil.equals("-")) {
-                    System.out.println("EXEMPT " + tSrc + " and " + tFil);
                     tCheck[j] = 1;
                 } else if (tSrc.equalsIgnoreCase(tFil)) {
-                    System.out.println("SAME " + tSrc + " and " + tFil);
                     tCheck[j] = 1;
                 } else {
-                    System.out.println("FAILED " + tSrc + " and " + tFil);
                     tCheck[j] = 0;
                 }
             }
