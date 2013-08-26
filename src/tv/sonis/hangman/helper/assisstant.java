@@ -52,15 +52,20 @@ public class assisstant extends javax.swing.JFrame {
 
         jLabel2.setText("How Many Characters (Zero is any)");
 
-        CharCountSlider.setMaximum(20);
-        CharCountSlider.setValue(5);
+        CharCountSlider.setMaximum(10);
+        CharCountSlider.setMinimum(4);
+        CharCountSlider.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                CharCountSliderMouseReleased(evt);
+            }
+        });
         CharCountSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 CharCountSliderStateChanged(evt);
             }
         });
 
-        CharCount.setText("5");
+        CharCount.setText("Any");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -71,8 +76,8 @@ public class assisstant extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(CharCountSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(CharCount, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CharCount, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -219,7 +224,6 @@ public class assisstant extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(Characters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(0, 8, Short.MAX_VALUE)
@@ -285,7 +289,11 @@ public class assisstant extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CharCountSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_CharCountSliderStateChanged
-        CharCount.setText("" + CharCountSlider.getValue());
+        if (CharCountSlider.getMinimum() == CharCountSlider.getValue()) {
+            CharCount.setText("Any");
+        } else {
+            CharCount.setText("" + CharCountSlider.getValue());
+        }
         UPDATED();
     }//GEN-LAST:event_CharCountSliderStateChanged
 
@@ -320,6 +328,31 @@ public class assisstant extends javax.swing.JFrame {
     private void FilterKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_FilterKeyReleased
         UPDATED();
     }//GEN-LAST:event_FilterKeyReleased
+    public boolean any = false;
+
+    private void CharCountSliderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CharCountSliderMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CharCountSliderMouseReleased
+
+    public int[] CountMinMaxDictionarySizes(String[] AllLines) {
+        int min = 20;//polarised to find the min size
+        int max = 1;//polarised to find the max size
+        Count:
+        {
+            for (int i = 0; i < AllLines.length; i++) {
+                if (AllLines[i].length() < min) {
+                    min = AllLines[i].length();
+                }
+                if (AllLines[i].length() > max) {
+                    max = AllLines[i].length();
+                }
+            }
+        }
+        if (min >= max) {
+            return new int[]{0, 20};
+        }
+        return new int[]{min - 1, max};
+    }
 
     public void UPDATED() {
         //SEGMENT - contains this segment
@@ -329,9 +362,15 @@ public class assisstant extends javax.swing.JFrame {
         //POSS - possible answers
         //CharCountSlider - value of the character
         int tI1 = 0;
-        int value = CharCountSlider.getValue();
-        boolean AnyValue = (value == 0) ? true : false;
         String[] AllLines = DICTIONARY.getText().toLowerCase().split("\r\n|\r|\n");
+        int[] sizes = CountMinMaxDictionarySizes(AllLines);
+        CharCountSlider.setMinimum(sizes[0]);
+        CharCountSlider.setMaximum(sizes[1]);
+        int value = CharCountSlider.getValue();
+        if (CharCountSlider.getMinimum() == value) {
+            value = 0;
+        }
+        boolean AnyValue = (value == 0) ? true : false;
         CountDictionary:
         {
             if (AnyValue) {

@@ -66,8 +66,8 @@
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="CharCountSlider" pref="367" max="32767" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="CharCount" min="-2" pref="17" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="CharCount" min="-2" pref="31" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -93,16 +93,17 @@
         </Component>
         <Component class="javax.swing.JSlider" name="CharCountSlider">
           <Properties>
-            <Property name="maximum" type="int" value="20"/>
-            <Property name="value" type="int" value="5"/>
+            <Property name="maximum" type="int" value="10"/>
+            <Property name="minimum" type="int" value="4"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="CharCountSliderMouseReleased"/>
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="CharCountSliderStateChanged"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="CharCount">
           <Properties>
-            <Property name="text" type="java.lang.String" value="5"/>
+            <Property name="text" type="java.lang.String" value="Any"/>
           </Properties>
         </Component>
       </SubComponents>
