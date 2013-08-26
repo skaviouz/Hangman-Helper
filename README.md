@@ -1,16 +1,22 @@
 Hangman-Helper
 ==============
 
-Designed to help with hangman inside runescape...
+![ScreenShot](https://raw.github.com/skaviouz/hangman-helper/master/releases/images/hangman-helper.png)
 
-This was updated after the 1.0 release.
+Details : 
+ * Designed to assist in getting runescape hangman guessing down to a science
+ * Release 2.0
+ * The project uses http://runescape.wikia.com/wiki/Hangman dictionary
+ * This project uses the standard dictionary, but you can edit the temp. dictionary on runtime.
 
-This project uses the standard dictionary, but you can edit the temp. dictionary on runtime.
+Programmer :
+ * Eric M. Horvitz II (Skaviouz)
 
-Know bugs (not really bugs)
- * label should say ANY, not 0
- * The Smallest word is 4 letters long (Whip) and you can use the slider for 1-3
- * The Largest words is 10 letters long, and you can use the slider for 11-20
+From the inspiration of :
+ * RSPS Servers which gives money for this game
 
-possible future addons
- * dynamic slider (flucuates with dictionary size)
+To run the application via pre-build Releases : 
+ * https://codeload.github.com/skaviouz/lobber/zip/master (zip)
+ * https://github.com/skaviouz/lobber.git (git)
+ * https://raw.github.com/skaviouz/hangman-helper/master/releases/Hangman-Helper-1.0.jar
+ * https://raw.github.com/skaviouz/hangman-helper/master/releases/Hangman-Helper-2.0.jar
